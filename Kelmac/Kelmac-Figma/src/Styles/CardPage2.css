@@ -1,0 +1,68 @@
+.main-div-cardpage2 {
+  padding: 0px 128.875px 50px 128.875px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.fixed {
+  display: flex;
+  padding: 80px;
+}
+.number {
+  font-weight: 400;
+  font-size: 208px;
+  line-height: 64%;
+  letter-spacing: 0%;
+  color: #ffd019;
+  width: 90;
+  height: 376;
+  top: 4465.15px;
+  left: 120px;
+}
+.para{
+  font-family: DM Sans;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  width: 228;
+  height: 156;
+  top: 4565.15px;
+  left: 220px;
+  color: #588dcf;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 3 columns */
+  gap: 20px; /* Spacing between items */
+  max-width: 900px; /* Adjust as needed */
+}
+
+.grid-item {
+  background: #f9f9f9;
+  width: 380px;
+  height: 435px;
+  border-radius: 16px;
+  border-width: 1px;
+  border-style: solid; /* Ensures the border is visible */
+  border-color: #dddddd;
+  padding: 40px;
+}
+.text-item {
+  display: flex;
+  flex-direction: column;
+  margin-top: 17px;
+}
+.btn-cardpage2{
+  padding: 0px 128.875px 50px 128.875px;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}

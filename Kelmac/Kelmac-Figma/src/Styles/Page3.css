@@ -1,0 +1,28 @@
+  
+  .overlay-card {
+    background-image: linear-gradient(rgba(71, 0, 104, 0.86), rgba(185, 0, 176, 0.84));
+    color: white;
+    padding: 30px;
+    width: 40%;
+    border-radius: 10px;
+    position: absolute;
+    right: 8%;
+  }
+  
+  
+  h2 {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  
+  p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  

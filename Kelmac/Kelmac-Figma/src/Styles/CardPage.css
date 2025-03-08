@@ -1,0 +1,17 @@
+.main-card-div{
+    padding: 0px 128.875px 50px 128.875px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: -65px;
+}
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    width: 70%;
+    height: 40vh;
+    margin: 10px;
+    /* Add more styles as needed */
+}

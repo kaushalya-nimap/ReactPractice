@@ -1,0 +1,112 @@
+body, html {
+  overflow-x: hidden; /* Prevents horizontal scroll */
+  overflow-y: auto; /* Allows vertical scroll only if needed */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.global{
+  overflow-y: none;
+  overflow-x: none;
+}
+.btn-div{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.contact-button {
+  background-color: #588DCF; /* Set the background color */
+  color: white;
+  border: 1px solid #588DCF;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  height: 40px; /* Fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: row;
+}
+
+.contact-button:hover {
+  background-color: #4a7bb8; /* Slightly darker blue on hover */
+}
+.whatsapp-button {
+  background-color: white;/* Set the background color */
+  color: #588DCF;
+  border-color:#588DCF ;
+  border:1px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  height: 40px; /* Fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: row;
+}
+.whatsapp-button:hover {
+  background-color: #ebeef1; /* Slightly darker blue on hover */
+}
+.bottom-margin{
+  height: 10px;
+  background-color:#EFBF04;
+
+}
+.main-div{
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 80px;
+}
+/* styles.css */
+.custom-head-text {
+  font-family: "DM Sans", sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 64px;
+  letter-spacing: -0.5px;
+  color: white;
+}
+.custom-text{
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 36px;
+  letter-spacing: 0px;
+  color: white;
+}
+.text-head-style {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 36.46px;
+  letter-spacing: 0%;
+}
+.text-head-bottom-style {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.83px;
+  letter-spacing: 0%;
+  color: #574F4A; /* Text color */
+}
+.text-style {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  text-align: justify;
+  color: #191722; /* Text color */
+}

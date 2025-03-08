@@ -1,0 +1,38 @@
+.main-div-page4 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  padding: 0px 128.875px 50px 128.875px;
+  overflow: hidden;
+}
+.main-div-page4 h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0px 30px 0px;
+  font-family: DM Sans;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+.card-page4 {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  color: white;
+  /* Add more styles as needed */
+}
+.cards-container {
+  display: flex;
+  width: 100%;
+}
+.description-container {
+  color: white;
+}
