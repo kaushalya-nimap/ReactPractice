@@ -1,0 +1,64 @@
+/* .menu {
+  list-style: none;
+  padding: 0;
+  text-decoration: none;
+}
+.menuItem a:hover {
+    background-color: #b0b3b6;
+    color: #333; 
+  }
+  
+.menuItem{
+  padding: 5px 0px;
+  text-decoration: none;
+}
+.menuItem Link{
+    text-decoration: none;
+} */
+ .logo{
+    padding: 10px 23px;
+ }
+.menuItem{
+    padding: 10px 23px;
+    border-radius: 10px;
+}
+.menuItem a {
+    text-decoration: none;  /* Remove underline */
+    color: inherit;         /* Make sure the color is inherited from parent */
+  }
+  
+
+  
+  /* Optional: Add hover effect to the entire menu item container (including padding) */
+  .menuItem:hover {
+    background-color: #f8f9fa;
+    color: #333;
+  }
+
+.navDiv{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    margin:0;
+    padding: 10px 0px;
+}
+.navElement{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+.navElement p{
+    margin:0;
+    cursor: pointer;
+}
+.logoutBtn{
+    padding: 8px 17px;
+    font-family: sans-serif;
+    background-color: #5d78ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
