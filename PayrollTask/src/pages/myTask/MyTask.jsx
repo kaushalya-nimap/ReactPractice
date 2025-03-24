@@ -328,7 +328,6 @@ const MyTask = () => {
         />
       </div>
       {loading ? <Loader /> : <DataTable columns={getTaskColumns()} data={task} />}
-      {/* <DataTable columns={getTaskColumns()} data={task} /> */}
       <div className={styles.paginationDiv}>
         <div className="pagination-controls">
           <label htmlFor="itemsPerPage">Items per page: </label>
