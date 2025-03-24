@@ -36,9 +36,10 @@ const Login = () => {
       const res = await publicRequest.post(LOGIN, values);
       //console.log('res', res.data.userDetail.data.UserId)
       const combined = `${values.username}:${values.password}`;
-      // console.log('combined', combined)
+       //console.log('combined', combined)
       // Base64 encode the combined string
       const base64Encoded = btoa(combined);
+      //console.log('base64Encoded', base64Encoded)
       localStorage.setItem("UserId", res.data.userDetail.data.UserId);
       localStorage.setItem("token", base64Encoded);
       toast.success("Login Successful");

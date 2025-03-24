@@ -13,19 +13,6 @@ import styles from "./AddTask.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyTask, setFilterApplied } from "../../slices/myTaskSlice";
 const FilterTask = ({ closeModal, teamMembers }) => {
-  //   const SignupSchema = Yup.object().shape({
-  //     title: Yup.string().required("Title is Required"),
-  //     description: Yup.string().required("Description is Required"),
-  //     // email: Yup.string()
-  //     //   .email("Invalid email")
-  //     //   .required("This Field is Required"),
-  //     // mobileNumber: Yup.string()
-  //     //   .matches(/^\d{10}$/, "mobileNumber number must be exactly 10 digits")
-  //     //   .required("This Field is Required"),
-  //     // password: Yup.string().required("This Field is Required"),
-  //     members: Yup.array().required("This Field is Required"),
-  //     date: Yup.string().required("this field is required"),
-  //   });
   const dispatch=useDispatch()
   const initialValues = {
     status: "",
@@ -49,18 +36,18 @@ const FilterTask = ({ closeModal, teamMembers }) => {
       UserIds: values.members,
       TaskStatus: values.status ? values.status[0] : "",
       Priority: values.priority ? values.priority[0] : "",
-      FromDueDate: formattedFromDate,
-      ToDueDate: formattedToDate,
+      FromDueDate: formattedFromDate?formattedFromDate:"",
+      ToDueDate: formattedToDate?formattedToDate:"",
     };
     
     const updatedParams = {
       ...lastParams,
       ...newParams,
     };
-    console.log('lastParams', lastParams)
-    console.log('updatedParams', updatedParams)
-    console.log('newParams', newParams)
-    //dispatch(fetchMyTask(updatedParams))
+    // console.log('lastParams', lastParams)
+    // console.log('updatedParams', updatedParams)
+    // console.log('newParams', newParams)
+    dispatch(fetchMyTask(updatedParams))
     dispatch(setFilterApplied(true));
     closeModal();
     // try {

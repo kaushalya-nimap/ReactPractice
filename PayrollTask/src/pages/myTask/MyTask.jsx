@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyTask,setFilterApplied } from "../../slices/myTaskSlice";
+import { fetchMyTask, setFilterApplied } from "../../slices/myTaskSlice";
 import DataTable from "react-data-table-component";
-import { fetchTeamMembers,UserId } from "../../utils/utils.jsx";
+import { fetchTeamMembers, UserId } from "../../utils/utils.jsx";
 import ReactPaginate from "react-paginate";
 import AddTask from "./AddTask";
 import FilterTask from "./FilterTask.jsx";
@@ -12,13 +12,21 @@ import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import PercentIcon from "@mui/icons-material/Percent";
 import ArchiveModal from "../../shared/modal/ArchiveModal.jsx";
 import { privateGet, privatePost } from "../../services/privateRequest.js";
-import { ACCEPT_TASK, ARCHIVE_TASK, DELETE_TASK,UPDATE_TASK } from "../../services/apiEndpoints.js";
+import {
+  ACCEPT_TASK,
+  ARCHIVE_TASK,
+  DELETE_TASK,
+  UPDATE_TASK,
+} from "../../services/apiEndpoints.js";
 import TaskCoverageModal from "../../shared/modal/TaskCoverageModal.jsx";
 import DeleteModal from "../../shared/modal/DeleteModal.jsx";
 import CompleteTaskModal from "../../shared/modal/CompleteModal.jsx";
 import { toast } from "react-hot-toast";
-import styles from "./Mytask.module.css"
-import classes from"../../Pagination.module.css"
+import styles from "./Mytask.module.css";
+import classes from "../../Pagination.module.css";
+import TaskPercentageModal from "../../shared/modal/TaskPercentageModal.jsx";
+import Loader from "../../shared/loader/Loader.jsx";
+import dayjs from "dayjs";
 
 const MyTask = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -26,10 +34,9 @@ const MyTask = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [addTask, setAddtask] = useState(false);
-  const[filterTask,setFilterTask]=useState(false)
+  const [filterTask, setFilterTask] = useState(false);
   const [teamMembers, setTeamMembers] = useState([]);
-  const userId=UserId()
- // console.log('UserId', userId)
+  const userId = UserId();
   const taskParams = {
     From: currentPage * itemsPerPage + 1,
     FromDueDate: "",
@@ -42,16 +49,18 @@ const MyTask = () => {
     Title: debouncedSearch,
     To: (currentPage + 1) * itemsPerPage,
     ToDueDate: "",
-    UserId: userId,
+    UserId: userId?userId[0]:"",
     UserIds: "",
   };
   const [archive, setArchive] = useState(false);
   const [archiveId, setArchiveId] = useState();
-  const[taskCoverage,setTaskCoverage]=useState(false)
-  const[deleteTask,setDeleteTask]=useState(false)
-  const[deleteId,setDeleteId]=useState()
-  const[updateTask,setUpdateTask]=useState(false)
-  const[updateValue,setUpdateValue]=useState({})
+  const [taskCoverage, setTaskCoverage] = useState(false);
+  const [deleteTask, setDeleteTask] = useState(false);
+  const [deleteId, setDeleteId] = useState();
+  const [updateTask, setUpdateTask] = useState(false);
+  const [updateValue, setUpdateValue] = useState({});
+  const [taskPercentageOpen, setTaskPercentageOpen] = useState(false);
+  const [taskPercentageId, setTaskPercentageId] = useState();
   //Archive
   const handleArchiveClick = (row) => {
     setArchive(true);
@@ -63,50 +72,64 @@ const MyTask = () => {
       TaskId: +archiveId,
     });
     setArchive(false);
+   dispatch(fetchMyTask(lastParams))
   };
   //Mark a task as completed
   const handleCompletTask = async (row) => {
-    try{
+    try {
       const res = await privatePost(ACCEPT_TASK, {
-      TaskId: row.TaskId,
-      TaskStatusValue: 0,
-    });
-    toast.success(res.data.data.Message||"Task accepted")
-    console.log("first", row);
-    console.log("triggered");
-    }catch(error){
-      console.log('error', error)
-    }   
+        TaskId: row.TaskId,
+        TaskStatusValue: 0,
+      });
+      toast.success(res.data.data.Message || "Task accepted");
+    } catch (error) {
+      console.log("error", error);
+    }
+   dispatch(fetchMyTask(lastParams))
   };
   //View task coverage
-  const handleTaskCoverage=()=>{
-    setTaskCoverage(!taskCoverage)
-  }
+  const handleTaskCoverage = () => {
+    setTaskCoverage(!taskCoverage);
+  };
   //Delete a task
-  const handleDeleteClick=(row)=>{
+  const handleDeleteClick = (row) => {
     setDeleteTask(true);
     setDeleteId(row.TaskId);
-  }
-  const handleDeleteSubmit=async()=>{
-      const res=await privateGet(`${DELETE_TASK}?taskId=${deleteId}`)
-      toast.success("Task deleted successfully")
-      setDeleteTask(false)
-  }
+  };
+  const handleDeleteSubmit = async () => {
+    const res = await privateGet(`${DELETE_TASK}?taskId=${deleteId}`);
+    toast.success("Task deleted successfully");
+    setDeleteTask(false);
+   dispatch(fetchMyTask(lastParams))
+  };
   //Update a task
-  const handleUpdateClick=(row)=>{
-    setUpdateTask(true)
-    setUpdateValue(row)
-    console.log('row', row)
-
-  }
+  const handleUpdateClick = (row) => {
+    setUpdateTask(true);
+    setUpdateValue(row);
+  };
 
   const handleUpdateTaskSubmit = async () => {
     const res = await privatePost(UPDATE_TASK, {
       TaskId: updateValue.TaskId,
-      TaskStatusValue:updateValue.TaskStatus
+      TaskStatusValue: updateValue.TaskStatus,
     });
-    toast.success("Task Status Updated")
+    toast.success("Task Status Updated");
     setUpdateTask(false);
+    dispatch(fetchMyTask(lastParams))
+  };
+  //Update Percentage of a task
+  const handlePercentage = (row) => {
+    setTaskPercentageOpen(true);
+    setTaskPercentageId(row.TaskId);
+  };
+  const handlePercentageSubmit = async (value) => {
+    const res = await privatePost(UPDATE_TASK, {
+      TaskId: taskPercentageId,
+      TaskStatusValue: value,
+    });
+    toast.success("Percentage of task updated")
+    setTaskPercentageOpen(false)
+    dispatch(fetchMyTask(lastParams))
   };
   const getTaskColumns = () => [
     {
@@ -127,13 +150,13 @@ const MyTask = () => {
     {
       name: "Assigned Date",
       selector: (row) =>
-        row.CreateDate ? new Date(row.CreateDate).toLocaleDateString() : "-",
+        row.CreateDate ? dayjs(row.CreateDate).format('DD MMM, YYYY') : '-',
       sortable: true,
     },
     {
       name: "Due Date",
       selector: (row) =>
-        row.TaskEndDate ? new Date(row.TaskEndDate).toLocaleDateString() : "-",
+        row.TaskEndDate ? dayjs(row.CreateDate).format('DD MMM, YYYY') : '-',
       sortable: true,
     },
     {
@@ -177,7 +200,7 @@ const MyTask = () => {
       selector: (row) =>
         row.TaskId ? (
           <Tooltip title="View Task Coverage">
-            <Button onClick={()=>handleTaskCoverage()}>
+            <Button onClick={() => handleTaskCoverage()}>
               <SignalCellularAltIcon />
             </Button>
           </Tooltip>
@@ -190,7 +213,7 @@ const MyTask = () => {
       selector: (row) =>
         row.TaskId ? (
           <Tooltip title="Delete Task">
-            <Button onClick={()=>handleDeleteClick(row)}>
+            <Button onClick={() => handleDeleteClick(row)}>
               <Delete />
             </Button>
           </Tooltip>
@@ -203,7 +226,7 @@ const MyTask = () => {
       selector: (row) =>
         row.TaskStatus !== 100 && row.TaskStatus !== -1 ? (
           <Tooltip title="Mark Task as Completed">
-            <Button onClick={()=>handleUpdateClick(row)}>
+            <Button onClick={() => handleUpdateClick(row)}>
               <CheckCircleOutline />
             </Button>
           </Tooltip>
@@ -226,28 +249,25 @@ const MyTask = () => {
     },
   ];
 
-  // const { task, totalCount,lastParams } = useSelector((state) => state.myTask);
-  // console.log('lastParams', lastParams)
   const { task, totalCount, loading, lastParams, filterApplied } = useSelector(
     (state) => state.myTask
   );
-
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
   const handleAddTask = () => {
     setAddtask(!addTask);
   };
- 
+
   const closeModal = () => {
     setAddtask(false);
   };
-  const handleFilterTask=()=>{
-    setFilterTask(!filterTask)
-  }
-  const closeFilterTask=()=>{
-    setFilterTask(false)
-  }
+  const handleFilterTask = () => {
+    setFilterTask(!filterTask);
+  };
+  const closeFilterTask = () => {
+    setFilterTask(false);
+  };
   const getMembers = async () => {
     const members = await fetchTeamMembers(1, 10); // Fetch members from 1 to 10
     setTeamMembers(members);
@@ -256,8 +276,17 @@ const MyTask = () => {
     getMembers();
   }, [addTask]);
   const handleClearFilters = () => {
-    dispatch(fetchMyTask({ ...lastParams, UserIds: "", TaskStatus: "", Priority: "",FromDueDate:"",ToDueDate:"" }));
-    dispatch(setFilterApplied(false)); 
+    dispatch(
+      fetchMyTask({
+        ...lastParams,
+        UserIds: "",
+        TaskStatus: "",
+        Priority: "",
+        FromDueDate: "",
+        ToDueDate: "",
+      })
+    );
+    dispatch(setFilterApplied(false));
   };
 
   const dispatch = useDispatch();
@@ -277,41 +306,29 @@ const MyTask = () => {
   };
   return (
     <>
-      {addTask && <AddTask closeModal={closeModal} teamMembers={teamMembers} />}
-      {filterTask&&<FilterTask closeModal={closeFilterTask} teamMembers={teamMembers} />}
-      
-      <ArchiveModal
-        open={archive}
-        handleClose={() => setArchive(false)}
-        handleSubmit={handleArchiveSubmit}
-      />
-      <TaskCoverageModal
-      open={taskCoverage}
-      handleClose={()=>setTaskCoverage(false)}
-      />
-      <DeleteModal
-        open={deleteTask}
-        handleClose={() => setDeleteTask(false)}
-        handleSubmit={handleDeleteSubmit}
-      />
-      <CompleteTaskModal
-        open={updateTask}
-        handleClose={() => setUpdateTask(false)}
-        handleSubmit={handleUpdateTaskSubmit}
-      />
-      <div className={styles.inputButton}>
-      <button className={styles.addButton} onClick={handleAddTask}>Add Task</button>
-      <button className={styles.addButton} onClick={handleFilterTask}>Filter</button>
-     {filterApplied&&<button className={styles.addButton} onClick={handleClearFilters}>Cancel Filter</button>}
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className={styles.searchBtn}
-        placeholder="search"
-      />
+    
+     <div className={styles.inputButton}>
+        <button className={styles.addButton} onClick={handleAddTask}>
+          Add Task
+        </button>
+        <button className={styles.addButton} onClick={handleFilterTask}>
+          Filter
+        </button>
+        {filterApplied && (
+          <button className={styles.addButton} onClick={handleClearFilters}>
+            Cancel Filter
+          </button>
+        )}
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className={styles.searchBtn}
+          placeholder="search"
+        />
       </div>
-      <DataTable columns={getTaskColumns()} data={task} />
+      {loading ? <Loader /> : <DataTable columns={getTaskColumns()} data={task} />}
+      {/* <DataTable columns={getTaskColumns()} data={task} /> */}
       <div className={styles.paginationDiv}>
         <div className="pagination-controls">
           <label htmlFor="itemsPerPage">Items per page: </label>
@@ -339,6 +356,34 @@ const MyTask = () => {
           />
         </div>
       </div>
+      {addTask && <AddTask closeModal={closeModal} teamMembers={teamMembers} />}
+      {filterTask && ( <FilterTask closeModal={closeFilterTask} teamMembers={teamMembers} />)}
+
+      <ArchiveModal
+        open={archive}
+        handleClose={() => setArchive(false)}
+        handleSubmit={handleArchiveSubmit}
+      />
+      <TaskCoverageModal
+        open={taskCoverage}
+        handleClose={() => setTaskCoverage(false)}
+      />
+      <DeleteModal
+        open={deleteTask}
+        handleClose={() => setDeleteTask(false)}
+        handleSubmit={handleDeleteSubmit}
+      />
+      <CompleteTaskModal
+        open={updateTask}
+        handleClose={() => setUpdateTask(false)}
+        handleSubmit={handleUpdateTaskSubmit}
+      />
+      <TaskPercentageModal
+        open={taskPercentageOpen}
+        handleClose={() => setTaskPercentageOpen(false)}
+        handleSubmit={handlePercentageSubmit}
+      />
+      
     </>
   );
 };

@@ -16,7 +16,7 @@ export const routing = createBrowserRouter([
     path: '/', 
     element: <PrivateRoute component={HomeLayout} />,
     children: [
-      { path: 'dashboard', element: <Dashboard /> }, 
+      { path: '/dashboard', element: <Dashboard /> }, 
       { path: 'mytask', element: <MyTask /> }, 
     ],
   },

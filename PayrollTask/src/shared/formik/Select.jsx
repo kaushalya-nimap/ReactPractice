@@ -9,7 +9,7 @@ const CustomSelect = (props) => {
     const formik = useFormikContext();
     const handleSelectChange = (selectedOption) => {
         formik.setFieldTouched(name, true);
-        console.log('selectedOption', selectedOption)
+        //console.log('selectedOption', selectedOption)
         //formik.setFieldValue(name, selectedOption ? selectedOption.value : '');
         const value = rest.isCCMember?selectedOption:selectedOption.map((option) => option.value) // Extract only the values
         //console.log('value', value)
