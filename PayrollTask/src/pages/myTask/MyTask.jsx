@@ -156,7 +156,7 @@ const MyTask = () => {
     {
       name: "Due Date",
       selector: (row) =>
-        row.TaskEndDate ? dayjs(row.CreateDate).format('DD MMM, YYYY') : '-',
+        row.TaskEndDate ? dayjs(row.CompletedDate).format('DD MMM, YYYY') : '-',
       sortable: true,
     },
     {
