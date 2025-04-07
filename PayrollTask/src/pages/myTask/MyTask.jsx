@@ -66,6 +66,10 @@ const MyTask = () => {
     setArchive(true);
     setArchiveId(row.TaskId);
   };
+//component unmount in useeffect or functional component
+  useEffect(()=>{
+    handleAddTask()
+  },[])
   const handleArchiveSubmit = async () => {
     const res = await privatePost(ARCHIVE_TASK, {
       IsArchive: true,
@@ -293,6 +297,7 @@ const MyTask = () => {
   useEffect(() => {
     dispatch(fetchMyTask(taskParams));
   }, [dispatch, itemsPerPage, currentPage, debouncedSearch]);
+  
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
