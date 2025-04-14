@@ -1,7 +1,7 @@
 import { comments } from "./data";
 export async function GET(){
     return Response.json(comments)
-   //return new Response("Hello world")
+//return new Response("Hello world")
 }
 export async function POST(request:Request){
    const comment=await request.json()
@@ -11,7 +11,7 @@ export async function POST(request:Request){
    };
    comments.push(newComment);
    return new Response(JSON.stringify(newComment),{
-      headers:{'content-type':'application.json'},
+      headers:{'content-type':'application/json'},
       status:201
    })
 
