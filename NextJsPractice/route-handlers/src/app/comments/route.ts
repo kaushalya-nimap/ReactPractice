@@ -16,11 +16,3 @@ export async function POST(request:Request){
    })
 
 }
-export async function Patch(request:Request,{params}:{params:Promise<{id:string}>}) {
-   const {id}=await params;
-   const body=await request.json();
-   const{text}=body;
-   const index=comments.findIndex((comment)=>comment.id===parseInt(id));
-   comments[index].text=text
-   return Response.json(comments[index]);
-}
